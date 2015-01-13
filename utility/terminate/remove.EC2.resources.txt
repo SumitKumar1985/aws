@@ -1,0 +1,8 @@
+Removed in the following order:
+# Terminate instances
+# De-register AMIs
+# Delete volumes
+# Delete snapshots
+# Release Elastic IPs
+
+---

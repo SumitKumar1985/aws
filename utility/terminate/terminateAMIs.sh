@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Use this script to look for all Elastic IPs owned by the account in all available AWS regions and print them to the console
+# Use this script to look for all AMIs owned by the account in all available AWS regions and print them to the console
 # This expects the name of the profile to use with the aws-cli as the only argument to the script
 
 export SCRIPT_NAME="$0"
@@ -12,9 +12,7 @@ then
         exit 1
 fi
 
-while read region
+while read amiId
 do 
-	echo "In region $region"
-        aws --profile $1 --region $region ec2 describe-addresses --output text | awk '{ print $2 }'
-	echo "---"
+	AMI_TYPE=`aws --profile $1 ec2 describe-images --image-ids $amiId --output text | grep -w IMAGES | awk '{ print $11 }'`
 done < aws.regions.txt
