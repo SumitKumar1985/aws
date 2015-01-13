@@ -4,6 +4,15 @@
 # This relies on the use of a tag with key "Name" for all of the instances
 # This expects the name of the profile to use with the aws-cli as the only argument to the script
 
+export SCRIPT_NAME="$0"
+
+if [ $# -ne 1 ]
+then
+	echo "Missing profile as solitary argument"
+	echo "Usage: $SCRIPT_NAME profile"
+        exit 1
+fi
+
 while read region
 do 
 	echo "In region $region"
