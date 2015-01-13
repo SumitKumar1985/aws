@@ -16,6 +16,6 @@ fi
 while read region
 do 
 	echo "In region $region"
-	aws --profile $1 --region $region ec2 describe-instances | grep Name
+	aws --profile $1 --region $region ec2 describe-instances --output text | grep Name | awk '{ print $3 }'
 	echo "---"
 done < aws.regions.txt
