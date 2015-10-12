@@ -1,0 +1,77 @@
+{
+  "Description": "Setup basic DNS for the domain, and verification and mail servers to use Google Apps for email",
+
+  "Parameters": {
+    "DomainName": {
+      "Description": "The top-level domain name (such as 'example.com')",
+      "Type": "String"
+    },
+    "VerificationCNAMERecordName": {
+      "Description": "Value to set as CNAME record name for verification",
+      "Type": "String"
+    },
+    "VerificationCNAMERecordTarget": {
+      "Description": "Value to set as CNAME record target for verification",
+      "Type": "String"
+    }
+  },
+
+  "Resources": {
+    "domain": {
+      "Type": "AWS::Route53::HostedZone",
+      "Properties": {
+        "Name": {
+          "Ref": "DomainName"
+        }
+      }
+    },
+    "verificationCNAMERecord": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "domain"
+        },
+        "Type": "CNAME",
+        "Name": {
+          "Fn::Join": [
+            ".",
+            [
+              {
+                "Ref": "VerificationCNAMERecordName"
+              },
+              {
+                "Ref": "DomainName"
+              }
+            ]
+          ]
+        },
+        "ResourceRecords": [
+          {
+            "Ref": "VerificationCNAMERecordTarget"
+          }
+        ],
+        "TTL": "3600"
+      }
+    },
+    "mailServers": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "domain"
+        },
+        "Type": "MX",
+        "Name": {
+          "Ref": "DomainName"
+        },
+        "ResourceRecords": [
+          "1 ASPMX.L.GOOGLE.COM",
+          "5 ALT1.ASPMX.L.GOOGLE.COM",
+          "5 ALT2.ASPMX.L.GOOGLE.COM",
+          "10 ALT3.ASPMX.L.GOOGLE.COM",
+          "10 ALT4.ASPMX.L.GOOGLE.COM"
+        ],
+        "TTL": "3600"
+      }
+    }
+  }
+}
