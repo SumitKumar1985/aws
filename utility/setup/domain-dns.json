@@ -1,0 +1,21 @@
+{
+  "Description": "Setup basic DNS for the domain",
+
+  "Parameters": {
+    "DomainName": {
+      "Description": "The top-level domain name (such as 'example.com')",
+      "Type": "String"
+    }
+  },
+
+  "Resources": {
+    "domain": {
+      "Type": "AWS::Route53::HostedZone",
+      "Properties": {
+        "Name": {
+          "Ref": "DomainName"
+        }
+      }
+    }
+  }
+}
