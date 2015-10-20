@@ -1,0 +1,12 @@
+{
+  "Rules": [
+    {
+      "ID": "expiry-BUCKET",
+      "Status": "Enabled",
+      "Prefix": "",
+      "Expiration": {
+        "Days": EXPIRY_IN_DAYS
+      }
+    }
+  ]
+}
