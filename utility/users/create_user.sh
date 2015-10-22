@@ -15,14 +15,14 @@ PROFILE="$1"
 USER_NAME="$2"
 GROUP_NAME="$3"
 
-user_exists=$(aws --profile ${PROFILE} iam list-users | grep ${USER_NAME} | awk '{ print $NF }')
+user_exists=$(aws --profile ${PROFILE} --output text iam list-users | grep ${USER_NAME} | awk '{ print $NF }')
 if [ "${USER_NAME}" == "${user_exists}" ]
 then
 	echo "User with name ${USER_NAME} already exists. Will not create user."
 	exit 0
 fi
 
-group_exists=$(aws --profile ee iam list-groups | grep ${GROUP_NAME} | awk '{ print $(NF-1) }')
+group_exists=$(aws --profile ${PROFILE} --output text iam list-groups | grep ${GROUP_NAME} | awk '{ print $(NF-1) }')
 if [ "${GROUP_NAME}" != "${group_exists}" ]
 then
 	echo "Group named ${GROUP_NAME} does not exist. Will not create user."
