@@ -9,12 +9,15 @@ if [ $# -ne 1 ]
 then
 	echo "Missing profile as solitary argument"
 	echo "Usage: $SCRIPT_NAME profile"
-        exit 1
+	exit 1
 fi
 
-while read region
+PROFILE="$1"
+
+ALL_REGIONS=$(aws --profile ${PROFILE} --output text ec2 describe-regions | awk '{ print $NF }' | sort)
+
+for region in ${ALL_REGIONS}
 do 
-	echo "In region $region"
-        aws --profile $1 --region $region ec2 describe-volumes --output text | awk '{ print $8 }' | grep -v '^$'
-	echo "---"
-done < aws.regions.txt
+	echo "Region: $region"
+    aws --profile ${PROFILE} --region ${region} --output text ec2 describe-volumes | grep 'VOLUMES' | awk '{ print $(NF-1) }'
+done
