@@ -12,6 +12,9 @@ fi
 echo "Listing EC2 instances"
 source listInstanceIds.sh $1
 
+echo "Listing EC2 spot instance requests"
+source list_spot_instance_requests.sh $1
+
 echo "Listing Elastic IPs"
 source listElasticIPs.sh $1
 
