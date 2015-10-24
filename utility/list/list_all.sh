@@ -9,8 +9,8 @@ then
 	exit 1
 fi
 
-echo "Listing EC2 hosts"
-source listHosts.sh $1
+echo "Listing EC2 instances"
+source listInstanceIds.sh $1
 
 echo "Listing Elastic IPs"
 source listElasticIPs.sh $1
@@ -19,7 +19,7 @@ echo "Listing CloudWatch alarms"
 source listAlarmNames.sh $1
 
 echo "Listing EBS volumes"
-source listVolumes.sh $1
+source list_volumes.sh $1
 
 echo "Listing AMIs"
 source listAMIs.sh $1
