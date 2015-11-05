@@ -33,4 +33,5 @@ do
 	aws --profile ${PROFILE} iam remove-user-from-group --group-name ${group} --user-name ${USER_NAME}
 done
 
+aws --profile ${PROFILE} iam delete-login-profile --user-name ${USER_NAME}
 aws --profile ${PROFILE} iam delete-user --user-name ${USER_NAME}
