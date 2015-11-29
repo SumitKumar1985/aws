@@ -1,0 +1,53 @@
+{
+  "Parameters": {
+    "reportsBucket": {
+      "Description": "Name of bucket to receive billing reports in",
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "myBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": {
+          "Ref": "reportsBucket"
+        }
+      }
+    },
+    "bucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "myBucket"
+        },
+        "PolicyDocument": {
+          "Statement": [{
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "386209384616"
+            },
+            "Action": "s3:PutObject",
+            "Resource": {
+              "Fn::Join": ["", ["arn:aws:s3:::", {
+                "Ref": "myBucket"
+              }, "/*"]]
+            }
+          }, {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "386209384616"
+            },
+            "Action": [
+              "s3:GetBucketAcl", "s3:GetBucketPolicy"
+            ],
+            "Resource": {
+              "Fn::Join": ["", ["arn:aws:s3:::", {
+                "Ref": "myBucket"
+              }]]
+            }
+          }]
+        }
+      }
+    }
+  }
+}
