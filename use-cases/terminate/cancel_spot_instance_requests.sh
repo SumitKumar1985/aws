@@ -18,12 +18,10 @@ regions=$(aws --profile ${PROFILE} --output text ec2 describe-regions | awk '{ p
 for region in ${regions}
 do
 	echo "Region: ${region}"
-	spot_instance_requests=$(aws --profile ${PROFILE} --region ${region} --output text ec2 describe-spot-instance-requests | grep 'SPOTINSTANCEREQUESTS' | awk '{ print $6 }')
-	
+	spot_instance_requests=$(aws --profile ${PROFILE} --region ${region} --output text ec2 describe-spot-instance-requests | grep 'SPOTINSTANCEREQUESTS' | awk '{ print $8 }')
+
 	for request in ${spot_instance_requests}
 	do
 		aws --profile ${PROFILE} --region ${region} ec2 cancel-spot-instance-requests --spot-instance-request-ids ${request}
 	done
-done 	
-	
-	
+done

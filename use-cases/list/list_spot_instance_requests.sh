@@ -21,7 +21,7 @@ then
 fi
 
 for region in ${ALL_REGIONS}
-do	
+do
 	echo "Region: ${region}"
-	aws --profile ${PROFILE} --region ${region} --output text ec2 describe-spot-instance-requests | grep 'SPOTINSTANCEREQUESTS' | awk '{ print $6 }'
-done	
+	aws --profile ${PROFILE} --region ${region} --output text ec2 describe-spot-instance-requests | grep 'SPOTINSTANCEREQUESTS' | awk '{ print $8 }'
+done
