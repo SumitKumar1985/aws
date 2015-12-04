@@ -1,0 +1,6 @@
+{
+  "ImageId": "AMI-ID",
+  "KeyName": "KEY-NAME",
+  "SecurityGroupIds": ["SECURITY-GROUP"],
+  "InstanceType": "INSTANCE-TYPE"
+}
