@@ -30,7 +30,7 @@ sed -i '' "s/KEY-NAME/${KEY_NAME}/" launch-specification.json
 sed -i '' "s/SECURITY-GROUP/${SECURITY_GROUP_ID}/" launch-specification.json
 sed -i '' "s/INSTANCE-TYPE/${INSTANCE_TYPE}/" launch-specification.json
 
-aws --profile ${PROFILE} ec2 request-spot-instances \
+aws --profile ${PROFILE} --output text ec2 request-spot-instances \
   --type "one-time" \
   --spot-price "${SPOT_PRICE}" \
   --instance-count ${NUMBER_OF_INSTANCES} \
