@@ -22,8 +22,6 @@ AMI_ID="$6"
 KEY_NAME="$7"
 SECURITY_GROUP_ID="$8"
 
-echo "${DURATION_IN_MINUTES}"
-
 cp launch-specification.json.template launch-specification.json
 sed -i '' "s/AMI-ID/${AMI_ID}/" launch-specification.json
 sed -i '' "s/KEY-NAME/${KEY_NAME}/" launch-specification.json
