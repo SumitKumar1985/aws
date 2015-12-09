@@ -9,23 +9,25 @@ then
 	exit 1
 fi
 
+PROFILE="$1"
+
 echo "Listing EC2 instances"
-source listInstanceIds.sh $1
+source listInstanceIds.sh ${PROFILE}
 
 echo "Listing EC2 spot instance requests"
-source list_spot_instance_requests.sh $1
+source list_spot_instance_requests.sh ${PROFILE}
 
 echo "Listing Elastic IPs"
-source listElasticIPs.sh $1
+source listElasticIPs.sh ${PROFILE}
 
 echo "Listing CloudWatch alarms"
-source listAlarmNames.sh $1
+source list_alarm_names.sh ${PROFILE}
 
 echo "Listing EBS volumes"
-source list_volumes.sh $1
+source list_ebs_volumes.sh ${PROFILE}
 
 echo "Listing AMIs"
-source listAMIs.sh $1
+source listAMIs.sh ${PROFILE}
 
 echo "Listing EBS snapshots"
-source listSnapshots.sh $1
+source list_snapshots.sh ${PROFILE}

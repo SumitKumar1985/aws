@@ -12,9 +12,14 @@ then
         exit 1
 fi
 
-while read region
-do 
-	echo "In region $region"
-        aws --profile $1 --region $region ec2 describe-snapshots --owner self --output text | awk '{ print $12 }'
-	echo "---"
-done < aws.regions.txt
+PROFILE="$1"
+
+ALL_REGIONS=$(aws --profile ${PROFILE} --output text ec2 describe-regions |\
+								awk '{ print $NF }' | sort)
+
+for region in ${ALL_REGIONS}
+do
+	echo "Region: $region"
+  aws --profile ${PROFILE} --region ${region} ec2 describe-snapshots \
+			--owner self --output text | awk '{ print $(NF-4) }'
+done
