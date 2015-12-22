@@ -1,0 +1,70 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Cloned example to illustrate custom resource calling Lambda function",
+  "Resources": {
+    "CallingStringFunction": {
+      "Type": "Custom::GetEpochTime",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": ["GetEpochTimeFunction", "Arn"]
+        }
+      }
+    },
+    "GetEpochTimeFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": ["LambdaExecutionRole", "Arn"]
+        },
+        "Code": {
+          "ZipFile": {
+            "Fn::Join": ["", [
+              "var response = require('cfn-response');",
+              "exports.handler = function(event, context) {",
+              "  var responseData = {Value: Date.now().toString()};",
+              "  response.send(event, context, response.SUCCESS, responseData);",
+              "};"
+            ]]
+          }
+        },
+        "Runtime": "nodejs"
+      }
+    },
+    "LambdaExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [{
+            "Effect": "Allow",
+            "Principal": {
+              "Service": ["lambda.amazonaws.com"]
+            },
+            "Action": ["sts:AssumeRole"]
+          }]
+        },
+        "Path": "/",
+        "Policies": [{
+          "PolicyName": "root",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [{
+              "Effect": "Allow",
+              "Action": ["logs:*"],
+              "Resource": "arn:aws:logs:*:*:*"
+            }]
+          }
+        }]
+      }
+    }
+  },
+  "Outputs": {
+    "CallingStringFunctionOutput": {
+      "Description": "String value returned from the custom resources (Lambda function)",
+      "Value": {
+        "Fn::GetAtt": ["CallingStringFunction", "Value"]
+      }
+    }
+  }
+}
