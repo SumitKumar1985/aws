@@ -36,8 +36,7 @@ QUEUE_ARN=$(aws sqs get-queue-attributes --queue-url ${QUEUE_URL} --attribute-na
 
 - Transcript of [SMTP sending session](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-smtp-client-command-line.html) follows:
 
----
-
+```
 $ openssl s_client -crlf -quiet -connect email-smtp.us-west-2.amazonaws.com:465
 depth=1 /C=US/O=Symantec Corporation/OU=Symantec Trust Network/CN=Symantec Class 3 Secure Server CA - G4
 verify error:num=20:unable to get local issuer certificate
@@ -68,7 +67,6 @@ This is testing using the SES sandbox
 250 Ok 000001525bc9993c-d9fafe39-c492-4750-bc4b-e402083c0503-000000
 QUIT
 221 Bye
-
----
+```
 
 - See "example_bounce_notification_message.txt" checked in for the message received on the SQS queue after the above sending attempt
