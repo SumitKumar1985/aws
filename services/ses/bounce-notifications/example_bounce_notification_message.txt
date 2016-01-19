@@ -1,0 +1,11 @@
+{
+  "Type" : "Notification",
+  "MessageId" : "75919273-cb16-5b53-ab20-dd6b67b33787",
+  "TopicArn" : "arn:aws:sns:us-west-2:015060421141:bounces_test-outbound-01_notifications",
+  "Message" : "{\"notificationType\":\"Bounce\",\"bounce\":{\"bounceSubType\":\"General\",\"bounceType\":\"Permanent\",\"reportingMTA\":\"dsn; a27-123.smtp-out.us-west-2.amazonses.com\",\"bouncedRecipients\":[{\"emailAddress\":\"bounce@simulator.amazonses.com\",\"status\":\"5.1.1\",\"diagnosticCode\":\"smtp; 550 5.1.1 user unknown\",\"action\":\"failed\"}],\"timestamp\":\"2016-01-19T21:28:05.855Z\",\"feedbackId\":\"000001525bc99d92-77851165-954c-4edd-9d0f-be22dcacb381-000000\"},\"mail\":{\"timestamp\":\"2016-01-19T21:28:04.000Z\",\"source\":\"test-outbound-01@krishnanm.com\",\"messageId\":\"000001525bc9993c-d9fafe39-c492-4750-bc4b-e402083c0503-000000\",\"destination\":[\"bounce@simulator.amazonses.com\"],\"sourceArn\":\"arn:aws:ses:us-west-2:015060421141:identity/test-outbound-01@krishnanm.com\",\"sendingAccountId\":\"015060421141\"}}",
+  "Timestamp" : "2016-01-19T21:28:05.886Z",
+  "SignatureVersion" : "1",
+  "Signature" : "cBDF764jOLWnlpgiyNHL89Ac3rTSRSiiNqgaBqNlFarhAKkRGoaGGdCpeCrAAHpfuW4mZIGj1aul/fRNHG2/oz4eXOda4E5QfksbYf7GTKHWXM3ce1nn49xR8VHPyraSuBQmtYpnIz5/kg3AjpyO4mD5FcWAL66YyEtPvAGqxkZSSBmzWxS8oVTojFkm03I7GdyclyB10sV2IwT5hia9awltyjYkAq26jKXP0ica5eVw72wNKCf/6o+SAwaE3R8C99qEkYTXltH6tAIKSaX/ZDF+ZqVXsOxYDITIGK4vRRPNifxrUsRloLk5RTWRWjhK2gs3X1do5yg4jx7x7gg6Ag==",
+  "SigningCertURL" : "https://sns.us-west-2.amazonaws.com/SimpleNotificationService-bb750dd426d95ee9390147a5624348ee.pem",
+  "UnsubscribeURL" : "https://sns.us-west-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-west-2:015060421141:bounces_test-outbound-01_notifications:77691a29-341d-4143-9340-d544c0f1fde8"
+}
