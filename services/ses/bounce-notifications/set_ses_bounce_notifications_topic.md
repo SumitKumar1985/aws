@@ -69,4 +69,4 @@ QUIT
 221 Bye
 ```
 
-- See "example_bounce_notification_message.txt" checked in for the message received on the SQS queue after the above sending attempt
+- See [example bounce notification message](example_bounce_notification_message.txt) received on the SQS queue after the above sending attempt
