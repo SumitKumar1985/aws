@@ -1,5 +1,4 @@
-
-Responding to bounces when sending email through SES
+Processing bounces when sending email through SES
 ---
 
 - For a sender identity in SES, setup bounce notifications to be sent to an SNS topic
@@ -70,3 +69,4 @@ QUIT
 ```
 
 - See [example bounce notification message](example_bounce_notification_message.txt) received on the SQS queue after the above sending attempt
+- Scripts that illustrate how to [write to](write_message_sqs.py) and [read from SQS queues](receive_sqs_message.py) are also checked in
