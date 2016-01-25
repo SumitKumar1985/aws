@@ -5,16 +5,17 @@
 
 export SCRIPT_NAME="$0"
 
-if [ $# -ne 1 ]
+if [ -z "$AWS_PROFILE" ]
 then
-	echo "Missing profile as solitary argument"
-	echo "Usage: $SCRIPT_NAME profile"
-        exit 1
+	echo "Missing AWS_PROFILE: Set AWS_PROFILE to the user credential profile to use with aws-cli"
+	echo "Usage: $SCRIPT_NAME"
+	exit 1
 fi
 
-while read region
-do 
-	echo "In region $region"
-	aws --profile $1 --region $region ec2 describe-instances --output text | grep -w INSTANCES | awk '{ print $8 }'
-	echo "---"
-done < aws.regions.txt
+regions=$(aws --output text ec2 describe-regions|awk '{ print $NF }')
+
+for region in "${regions}"
+do
+	echo "Region: ${region}"
+	aws --region ${region} --output text ec2 describe-instances --output text | grep 'INSTANCES' | awk '{ print $8 }'
+done

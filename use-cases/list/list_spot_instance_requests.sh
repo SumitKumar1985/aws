@@ -4,24 +4,17 @@
 
 SCRIPT_NAME="$0"
 
-if [ $# -lt 1 ]
+if [ -z "$AWS_PROFILE" ]
 then
-	echo "Error: missing profile argument"
-	echo "Usage: ${SCRIPT_NAME} profile [region]"
+	echo "Missing AWS_PROFILE: Set AWS_PROFILE to the user credential profile to use with aws-cli"
+	echo "Usage: $SCRIPT_NAME"
 	exit 1
 fi
 
-PROFILE="$1"
-
-ALL_REGIONS=$(aws --profile ${PROFILE} --output text ec2 describe-regions | awk '{ print $NF }' | sort)
-
-if [ $# -eq 2 ]
-then
-	ALL_REGIONS="$2"
-fi
+ALL_REGIONS=$(aws --output text ec2 describe-regions | awk '{ print $NF }' | sort)
 
 for region in ${ALL_REGIONS}
 do
 	echo "Region: ${region}"
-	aws --profile ${PROFILE} --region ${region} --output text ec2 describe-spot-instance-requests | grep 'SPOTINSTANCEREQUESTS' | awk '{ print $8 }'
+	aws --region ${region} --output text ec2 describe-spot-instance-requests | grep 'SPOTINSTANCEREQUESTS' | awk '{ print $8 }'
 done
