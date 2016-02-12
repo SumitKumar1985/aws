@@ -25,7 +25,7 @@ echo "Listing EBS volumes"
 source list_ebs_volumes.sh
 
 echo "Listing AMIs"
-source listAMIs.sh
+source list_amis.sh
 
 echo "Listing EBS snapshots"
 source list_snapshots.sh
