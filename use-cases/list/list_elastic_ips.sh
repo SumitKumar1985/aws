@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Use this script to look for all Elastic IPs owned by the account in all available AWS regions and print them to the console
+# Use this script to look for all Elastic IPs owned by the account in all available AWS regions
 
 export SCRIPT_NAME="$0"
 

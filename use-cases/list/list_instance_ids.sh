@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Use this script to look for EC2 instances in all available AWS regions and print the instanceId to the console
-# This expects the name of the profile to use with the aws-cli as the only argument to the script
+# Use this script to look for EC2 instances in all available AWS regions
 
 export SCRIPT_NAME="$0"
 

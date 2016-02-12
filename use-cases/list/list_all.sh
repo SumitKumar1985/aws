@@ -24,11 +24,11 @@ source list_alarm_names.sh
 echo "Listing EBS volumes"
 source list_ebs_volumes.sh
 
-echo "Listing AMIs"
-source list_amis.sh
-
 echo "Listing EBS snapshots"
 source list_snapshots.sh
+
+echo "Listing AMIs"
+source list_amis.sh
 
 echo "Listing RDS instances"
 source list_rds.sh
