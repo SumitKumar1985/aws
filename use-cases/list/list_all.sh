@@ -16,7 +16,7 @@ echo "Listing EC2 spot instance requests"
 source list_spot_instance_requests.sh
 
 echo "Listing Elastic IPs"
-source listElasticIPs.sh
+source list_elastic_ips.sh
 
 echo "Listing CloudWatch alarms"
 source list_alarm_names.sh
