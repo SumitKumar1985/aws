@@ -12,10 +12,13 @@ then
 	exit 1
 fi
 
-regions=$(aws --output text ec2 describe-regions|awk '{ print $NF }')
+regions=$(aws --output text ec2 describe-regions | awk '{ print $NF }')
 
-for region in "${regions}"
+for region in ${regions}
 do
 	echo "Region: ${region}"
-	aws --region ${region} --output text ec2 describe-instances --output text | grep 'INSTANCES' | awk '{ print $8 }'
+	aws ec2 describe-instances \
+		--region ${region} \
+		--output text \
+		--query 'Reservations[*].Instances[*].[InstanceId]'
 done
