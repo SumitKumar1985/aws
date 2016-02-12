@@ -10,7 +10,7 @@ then
 fi
 
 echo "Listing EC2 instances"
-source listInstanceIds.sh
+source list_instance_ids.sh
 
 echo "Listing EC2 spot instance requests"
 source list_spot_instance_requests.sh

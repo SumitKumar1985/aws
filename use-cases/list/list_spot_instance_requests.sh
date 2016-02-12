@@ -16,5 +16,8 @@ ALL_REGIONS=$(aws --output text ec2 describe-regions | awk '{ print $NF }' | sor
 for region in ${ALL_REGIONS}
 do
 	echo "Region: ${region}"
-	aws --region ${region} --output text ec2 describe-spot-instance-requests | grep 'SPOTINSTANCEREQUESTS' | awk '{ print $8 }'
+	aws ec2 describe-spot-instance-requests \
+			--region ${region} \
+			--output text \
+			--query 'SpotInstanceRequests[*].[SpotInstanceRequestId,State]'
 done
