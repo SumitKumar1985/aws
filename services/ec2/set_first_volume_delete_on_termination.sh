@@ -40,5 +40,9 @@ else
     echo "Volume ${volume_name} is set to status: ${volume_status} other than desired status: ${SET_TO_VALUE}"
     echo "Now setting DeleteOnTermination for ${volume_name} to ${SET_TO_VALUE}"
     echo "[{\"DeviceName\": \"${volume_name}\",\"Ebs\": {\"DeleteOnTermination\": ${SET_TO_VALUE_LOWERCASE}}}]" > change.json
-    aws ec2 modify-instance-attribute --instance-id "${INSTANCE_ID}" --block-device-mappings file://change.json
+    aws ec2 modify-instance-attribute \
+      --instance-id "${INSTANCE_ID}" \
+      --block-device-mappings file://change.json
+
+    rm change.json
 fi
