@@ -1,0 +1,56 @@
+{
+  "Parameters": {
+    "WebServerAMI": {
+      "Type": "AWS::EC2::Image::Id",
+      "Description": "An AMI pre-configured as a simple web server"
+    },
+    "VpcId": {
+      "Type": "AWS::EC2::VPC::Id",
+      "Description": "VPC that the webserver will be located in"
+    },
+    "WebServerSubnetId": {
+      "Type": "AWS::EC2::Subnet::Id",
+      "Description": "Private subnet that the webserver will be located in"
+    }
+  },
+  "Resources": {
+    "WebServerSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "WebServers",
+        "VpcId": {
+          "Ref": "VpcId"
+        }
+      }
+    },
+    "myWebServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": {
+          "Ref": "WebServerAMI"
+        },
+        "InstanceType": "t2.nano",
+        "SecurityGroupIds": [{
+          "Ref": "WebServerSecurityGroup"
+        }],
+        "SubnetId": {
+          "Ref": "WebServerSubnetId"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "WebServerInstanceId": {
+      "Description": "Instance Id for the webserver",
+      "Value": {
+        "Ref": "myWebServer"
+      }
+    },
+    "WebServerSecurityGroupId": {
+      "Description": "Security Group Id",
+      "Value": {
+        "Fn::GetAtt": ["WebServerSecurityGroup", "GroupId"]
+      }
+    }
+  }
+}
