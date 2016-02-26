@@ -1,0 +1,111 @@
+{
+  "Parameters": {
+    "WebServerAMI": {
+      "Type": "AWS::EC2::Image::Id",
+      "Description": "An AMI pre-configured as a simple web server"
+    },
+    "VpcId": {
+      "Type": "AWS::EC2::VPC::Id",
+      "Description": "VPC that the webserver will be located in"
+    },
+    "WebServerSubnetId": {
+      "Type": "AWS::EC2::Subnet::Id",
+      "Description": "Private subnet that the webserver will be located in"
+    },
+    "ELBSubnetIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "List of public subnets that are available to ELB"
+    },
+    "ClientCidr": {
+      "Description": "Cidr to whitelist on the ELB to access webserver",
+      "Type": "String",
+      "Default": "0.0.0.0/0"
+    }
+  },
+  "Resources": {
+    "ELBSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "ELB",
+        "SecurityGroupIngress": [{
+          "IpProtocol": "tcp",
+          "FromPort": "80",
+          "ToPort": "80",
+          "CidrIp": {
+            "Ref": "ClientCidr"
+          }
+        }],
+        "VpcId": {
+          "Ref": "VpcId"
+        }
+      }
+    },
+    "WebServerSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "WebServers",
+        "SecurityGroupIngress": [{
+          "IpProtocol": "tcp",
+          "FromPort": "80",
+          "ToPort": "80",
+          "SourceSecurityGroupId": {
+            "Ref": "ELBSecurityGroup"
+          }
+        }],
+        "VpcId": {
+          "Ref": "VpcId"
+        }
+      }
+    },
+    "myELB": {
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Properties": {
+        "CrossZone": true,
+        "HealthCheck": {
+          "Target": "HTTP:80/",
+          "HealthyThreshold": "5",
+          "UnhealthyThreshold": "3",
+          "Interval": "30",
+          "Timeout": "5"
+        },
+        "Instances": [{
+          "Ref": "myWebServer"
+        }],
+        "Listeners": [{
+          "LoadBalancerPort": "80",
+          "InstancePort": "80",
+          "Protocol": "HTTP"
+        }],
+        "SecurityGroups": [{
+          "Ref": "ELBSecurityGroup"
+        }],
+        "Subnets": {
+          "Ref": "ELBSubnetIds"
+        }
+      }
+    },
+    "myWebServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": {
+          "Ref": "WebServerAMI"
+        },
+        "InstanceType": "t2.nano",
+        "SecurityGroupIds": [{
+          "Ref": "WebServerSecurityGroup"
+        }],
+        "SubnetId": {
+          "Ref": "WebServerSubnetId"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ELBDNSName": {
+      "Description": "ELB DNS Name",
+      "Value": {
+        "Fn::GetAtt": ["myELB", "DNSName"]
+      }
+    }
+  }
+}
