@@ -1,0 +1,11 @@
+- "npm init"
+- "npm install -g grunt-cli"
+- "npm install grunt --save-dev"
+- "npm install grunt-aws-lambda --save-dev
+- Create a Gruntfile (gruntfile.js) with the Grunt tasks
+- Create your lambda function (in index.js)
+- Create your test event (in event.json)
+- Create .npmignore, add "dist" to it
+- "grunt lambda_invoke"
+- "grunt lambda_package"
+- "grunt lambda_deploy" # once you have setup options in Gruntfile for the deploy task
