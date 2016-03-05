@@ -11,15 +11,76 @@
     "WebServerSubnetId": {
       "Type": "AWS::EC2::Subnet::Id",
       "Description": "Private subnet that the webserver will be located in"
+    },
+    "ELBSubnetIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "List of public subnets that are available to ELB"
+    },
+    "ClientCidr": {
+      "Description": "Cidr to whitelist on the ELB to access webserver",
+      "Type": "String",
+      "Default": "0.0.0.0/0"
     }
   },
   "Resources": {
+    "ELBSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "ELB",
+        "SecurityGroupIngress": [{
+          "IpProtocol": "tcp",
+          "FromPort": "80",
+          "ToPort": "80",
+          "CidrIp": {
+            "Ref": "ClientCidr"
+          }
+        }],
+        "VpcId": {
+          "Ref": "VpcId"
+        }
+      }
+    },
     "WebServerSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": "WebServers",
+        "SecurityGroupIngress": [{
+          "IpProtocol": "tcp",
+          "FromPort": "80",
+          "ToPort": "80",
+          "SourceSecurityGroupId": {
+            "Ref": "ELBSecurityGroup"
+          }
+        }],
         "VpcId": {
           "Ref": "VpcId"
+        }
+      }
+    },
+    "myELB": {
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Properties": {
+        "CrossZone": true,
+        "HealthCheck": {
+          "Target": "HTTP:80/",
+          "HealthyThreshold": "5",
+          "UnhealthyThreshold": "3",
+          "Interval": "30",
+          "Timeout": "5"
+        },
+        "Instances": [{
+          "Ref": "myWebServer"
+        }],
+        "Listeners": [{
+          "LoadBalancerPort": "80",
+          "InstancePort": "80",
+          "Protocol": "HTTP"
+        }],
+        "SecurityGroups": [{
+          "Ref": "ELBSecurityGroup"
+        }],
+        "Subnets": {
+          "Ref": "ELBSubnetIds"
         }
       }
     },
@@ -40,16 +101,10 @@
     }
   },
   "Outputs": {
-    "WebServerInstanceId": {
-      "Description": "Instance Id for the webserver",
+    "ELBDNSName": {
+      "Description": "ELB DNS Name",
       "Value": {
-        "Ref": "myWebServer"
-      }
-    },
-    "WebServerSecurityGroupId": {
-      "Description": "Security Group Id",
-      "Value": {
-        "Fn::GetAtt": ["WebServerSecurityGroup", "GroupId"]
+        "Fn::GetAtt": ["myELB", "DNSName"]
       }
     }
   }

@@ -9,6 +9,10 @@ grunt.initConfig({
 
 	lambda_deploy: {
 		default: {
+			arn: 'arn:aws:lambda:us-east-1:<ACCOUNT_ID>:function:hello-world',
+			options: {
+				enableVersioning: true
+			}
 		}
 	},
 
