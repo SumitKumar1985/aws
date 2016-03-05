@@ -1,4 +1,4 @@
-- Remember to replace placeholders designated by <angle brackets> in any configuration files checked in here
+- Remember to replace placeholders designated by angle brackets in any configuration files checked in here
 
 ```
 $ npm init
