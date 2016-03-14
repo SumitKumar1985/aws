@@ -1,0 +1,1 @@
+- you can't stop and start an Amazon EBS-backed instance if it is a Spot instance, but you can reboot or terminate it.
