@@ -32,3 +32,6 @@ source list_amis.sh
 
 echo "Listing RDS instances"
 source list_rds.sh
+
+echo "Listing DynamoDB tables"
+source list_dynamodb_tables.sh
